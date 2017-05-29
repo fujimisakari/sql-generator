@@ -1,0 +1,53 @@
+table-schema:
+  name: accounts
+  meta: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+  example-number: 5000
+
+  columns:
+    - name: account_id
+      type: SERIAL PRIMARY KEY
+      example-type: int-inc
+
+    - name: account_name
+      type: VARCHAR(20)
+      example-type: string-inc
+      example-text: "account"
+
+    - name: first_name
+      type: VARCHAR(20)
+      example-type: string-range
+      example-range:
+        - value: "ryo"
+        - value: "takezo"
+        - value: "risa"
+        - value: "misaka"
+        - value: "jun"
+        - value: "takahiro"
+
+    - name: last_name
+      type: VARCHAR(20)
+      example-type: string-range
+      example-range:
+        - value: "fujimoto"
+        - value: "gondou"
+        - value: "uehara"
+        - value: "kondou"
+        - value: "maehara"
+        - value: "morita"
+
+    - name: email
+      type: VARCHAR(100)
+      example-type: string-inc
+      example-text: "account@gmail.com"
+
+    - name: password_hash
+      type: CHAR(64)
+      example-type: string
+      example-text: "hogehoge"
+
+    - name: point
+      type: INTEGER
+      example-type: int-range
+      example-range:
+        - min: 300
+        - max: 1500
