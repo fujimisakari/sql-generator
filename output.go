@@ -50,7 +50,7 @@ func OutputExampletQuery(t Table) {
 		for i := start; i <= end; i++ {
 			columnLine := "("
 			for idx, v := range t.TableColumns {
-				columnLine += v.Example.GetExample(i)
+				columnLine += v.Example.GetValue(i)
 				if idx != colCount {
 					columnLine += ", "
 				}

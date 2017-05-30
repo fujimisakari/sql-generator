@@ -66,7 +66,7 @@ func makeTableContext(yamlPath string) Table {
 	name, _ := schema["name"].(string)
 	tblName := strings.ToLower(name)
 	tblMeta := schema["meta"].(string)
-	exampleNumber := schema["example-number"].(int)
+	exNumber := schema["ex-number"].(int)
 	columns := schema["columns"].([]interface{})
 	colCount := len(columns)
 
@@ -78,35 +78,41 @@ func makeTableContext(yamlPath string) Table {
 		exText := ""
 		exMin := 0
 		exMax := 0
+		exStartDate := ""
+		exEndDate := ""
 		exStrRange := make([]string, 0)
 
-		switch c["example-type"] {
+		switch c["ex-type"] {
 		case intType:
-			exText = c["example-text"].(string)
+			exText = c["ex-text"].(string)
 		case intIncType:
 		case intRangeType:
-			rangeSchema := c["example-range"].([]interface{})
-			minTag := rangeSchema[0].(map[interface{}]interface{})
-			maxTag := rangeSchema[1].(map[interface{}]interface{})
-			exMin = minTag["min"].(int)
-			exMax = maxTag["max"].(int)
+			rangeSchema := c["ex-range"].([]interface{})
+			exMin = rangeSchema[0].(map[interface{}]interface{})["min"].(int)
+			exMax = rangeSchema[1].(map[interface{}]interface{})["max"].(int)
 		case stringType, stringIncType:
-			exText = c["example-text"].(string)
+			exText = c["ex-text"].(string)
 		case stringRangeType:
-			rangeSchema := c["example-range"].([]interface{})
+			rangeSchema := c["ex-range"].([]interface{})
 			strList := make([]string, len(rangeSchema))
 			for idx, rData := range rangeSchema {
 				r, _ := rData.(map[interface{}]interface{})
 				strList[idx] = r["value"].(string)
 			}
 			exStrRange = strList
+		case dateRangeType:
+			rangeSchema := c["ex-range"].([]interface{})
+			exStartDate = rangeSchema[0].(map[interface{}]interface{})["start"].(string)
+			exEndDate = rangeSchema[1].(map[interface{}]interface{})["end"].(string)
 		}
 
 		exTblCol := ExampleTableColumn{
-			c["example-type"].(string),
+			c["ex-type"].(string),
 			exText,
 			exMin,
 			exMax,
+			exStartDate,
+			exEndDate,
 			exStrRange,
 		}
 
@@ -121,7 +127,7 @@ func makeTableContext(yamlPath string) Table {
 	context := Table{
 		tblName,
 		tblMeta,
-		exampleNumber,
+		exNumber,
 		tblColumns,
 	}
 	return context

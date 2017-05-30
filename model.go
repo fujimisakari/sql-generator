@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"time"
 )
 
 type Table struct {
@@ -47,10 +48,12 @@ type ExampleTableColumn struct {
 	Text        string
 	Min         int
 	Max         int
+	StartDate   string
+	EndDate     string
 	StringRange []string
 }
 
-func (t ExampleTableColumn) GetExample(i int) string {
+func (t ExampleTableColumn) GetValue(i int) string {
 	var s string
 	switch t.Type {
 	case intType:
@@ -58,8 +61,7 @@ func (t ExampleTableColumn) GetExample(i int) string {
 	case intIncType:
 		s = fmt.Sprintf("%d", i)
 	case intRangeType:
-		rand := rand.Intn(t.Max-t.Min) + t.Min
-		s = fmt.Sprintf("%d", rand)
+		s = fmt.Sprintf("%d", random(t.Min, t.Max))
 	case stringType:
 		s = fmt.Sprintf("'%s'", t.Text)
 	case stringIncType:
@@ -67,8 +69,23 @@ func (t ExampleTableColumn) GetExample(i int) string {
 	case stringRangeType:
 		idx := rand.Intn(len(t.StringRange))
 		s = fmt.Sprintf("'%s'", t.StringRange[idx])
+	case dateRangeType:
+		layout := "2006-01-02 15:04:05"
+		startDate, _ := time.Parse(layout, t.StartDate)
+		endDate, _ := time.Parse(layout, t.EndDate)
+		unixtime := randomForDate(startDate.Unix(), endDate.Unix())
+		s = fmt.Sprintf("'%s'", time.Unix(unixtime, 0).Format(layout))
 	default:
 		fmt.Println("Dose not exists type:", t.Type)
 	}
 	return s
+}
+
+
+func random(min int, max int) int {
+	return rand.Intn(max - min) + min
+}
+
+func randomForDate(min int64, max int64) int64 {
+	return rand.Int63n(max - min) + min
 }

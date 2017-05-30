@@ -8,4 +8,5 @@ const (
 	stringType      = "string"
 	stringIncType   = "string-inc"
 	stringRangeType = "string-range"
+	dateRangeType   = "date-range"
 )
