@@ -11,22 +11,15 @@ import (
 
 func main() {
 	args := os.Args
-	if len(args) <= 2 {
-		fmt.Println("Usage: ", path.Base(args[0]), " yaml-path command")
-		return
-	}
 
-	// Load yaml data
-	target := args[1]
-	// yamlPath := fmt.Sprintf("./%s.yaml", target)
-	yamlPath := target
-	if _, err := os.Stat(yamlPath); err != nil {
-		fmt.Println("YamlFile not found:", yamlPath)
+	if len(args) <= 1 {
+		fmt.Println("Usage: ", path.Base(args[0]), " yaml-path command")
+		OutputHelp()
 		return
 	}
 
 	// Select command
-	command := args[2]
+	command := args[1]
 	var f func(Table)
 	switch command {
 	case "create":
@@ -35,8 +28,24 @@ func main() {
 		f = OutputDropTableQuery
 	case "example":
 		f = OutputExampletQuery
+	case "help":
+		OutputHelp()
+		return
+	case "sample":
+		OutputSampleTableSchema()
+		return
 	default:
 		fmt.Println("Dose not exists command:", command)
+		OutputHelp()
+		return
+	}
+
+	// Load yaml data
+	target := args[2]
+	// yamlPath := fmt.Sprintf("./%s.yaml", target)
+	yamlPath := target
+	if _, err := os.Stat(yamlPath); err != nil {
+		fmt.Println("YamlFile not found:", yamlPath)
 		return
 	}
 

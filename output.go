@@ -3,8 +3,25 @@ package main
 import (
 	"fmt"
 	"math/rand"
+	"os"
 	"time"
 )
+
+func OutputHelp() {
+	helpMsg := `Usage:
+
+        sqlgen command [yaml-path]
+
+
+The commands are:
+
+        create      output create table query
+        example     output example insert query
+        drop        output drop table query
+        sample      output sample table schema yaml file`
+
+	fmt.Println(helpMsg)
+}
 
 func OutputCreateTableQuery(t Table) {
 	colCount := len(t.TableColumns) - 1
@@ -45,7 +62,7 @@ func OutputExampletQuery(t Table) {
 		if start >= t.ExampleNumber {
 			break
 		}
-		
+
 		query := ""
 		for i := start; i <= end; i++ {
 			columnLine := "("
@@ -69,5 +86,24 @@ func OutputExampletQuery(t Table) {
 		if t.ExampleNumber < end {
 			end = t.ExampleNumber
 		}
+	}
+}
+
+func OutputSampleTableSchema() {
+	file, _ := os.Open("./sample.yaml")
+	defer file.Close()
+
+	var BUFSIZE = 1024
+	buf := make([]byte, BUFSIZE)
+	for {
+		n, err := file.Read(buf)
+		if n == 0 {
+			break
+		}
+		if err != nil {
+			break
+		}
+
+		fmt.Print(string(buf[:n]))
 	}
 }

@@ -13,7 +13,7 @@ Installation and usage
 $ make setup
 
 $ make create
-go run output.go const.go model.go main.go ./schema.yaml create
+go run output.go const.go model.go main.go create ./schema.yaml 
 CREATE TABLE `accounts` (
   `account_id` SERIAL PRIMARY KEY,
   `account_name` VARCHAR(20),
@@ -26,7 +26,7 @@ CREATE TABLE `accounts` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 $ make drop
-go run output.go const.go model.go main.go ./schema.yaml drop
+go run output.go const.go model.go main.go drop ./schema.yaml
 DROP TABLE IF EXISTS `accounts`;
 ```
 
@@ -37,9 +37,7 @@ This example will generate the following output:
 
 ```
 $ make example
-go run output.go const.go model.go main.go ./schema.yaml example
- make example
-go run output.go const.go model.go main.go ./schema.yaml example
+go run output.go const.go model.go main.go example ./schema.yaml
 INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, password_hash, point, created_at) VALUES
 (1, '1-account', 'risa', 'morita', '1-account@gmail.com', 'hogehoge', 498, '2017-05-21 20:22:58'),
 (2, '2-account', 'ryo', 'gondou', '2-account@gmail.com', 'hogehoge', 1034, '2017-05-21 20:12:16'),
@@ -52,4 +50,75 @@ INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, 
 (9, '9-account', 'risa', 'maehara', '9-account@gmail.com', 'hogehoge', 1042, '2017-05-21 23:57:13'),
 :
 :
+```
+
+How to set TableSchem
+-------
+
+You can define these by setting and changing on yaml file.
+
+
+```
+$ make sample
+go run output.go const.go model.go main.go sample
+table-schema:
+  name: accounts
+  meta: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+  ex-number: 5000
+
+  columns:
+    - name: account_id
+      type: SERIAL PRIMARY KEY
+      ex-type: int-inc
+
+    - name: account_name
+      type: VARCHAR(20)
+      ex-type: string-inc
+      ex-text: "account"
+
+    - name: first_name
+      type: VARCHAR(20)
+      ex-type: string-range
+      ex-range:
+        - value: "ryo"
+        - value: "takezo"
+        - value: "risa"
+        - value: "misaka"
+        - value: "jun"
+        - value: "takahiro"
+
+    - name: last_name
+      type: VARCHAR(20)
+      ex-type: string-range
+      ex-range:
+        - value: "fujimoto"
+        - value: "gondou"
+        - value: "uehara"
+        - value: "kondou"
+        - value: "maehara"
+        - value: "morita"
+
+    - name: email
+      type: VARCHAR(100)
+      ex-type: string-inc
+      ex-text: "account@gmail.com"
+
+    - name: password_hash
+      type: CHAR(64)
+      ex-type: string
+      ex-text: "hogehoge"
+
+    - name: point
+      type: INTEGER
+      ex-type: int-range
+      ex-range:
+        - min: 300
+        - max: 1500
+
+    - name: created_at
+      type: datetime DEFAULT NULL
+      ex-type: date-range
+      ex-range:
+        - start: "2017-05-20 12:31:24"
+        - end: "2017-05-23 23:01:55"
 ```

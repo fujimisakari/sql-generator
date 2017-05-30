@@ -13,10 +13,13 @@ setup:
 	go get gopkg.in/yaml.v2
 
 create:
-	go run output.go const.go model.go main.go $(SCHEMA_PATH) create
+	go run output.go const.go model.go main.go create $(SCHEMA_PATH)
 
 example:
-	go run output.go const.go model.go main.go $(SCHEMA_PATH) example
+	go run output.go const.go model.go main.go example $(SCHEMA_PATH)
 
 drop:
-	go run output.go const.go model.go main.go $(SCHEMA_PATH) drop
+	go run output.go const.go model.go main.go drop $(SCHEMA_PATH)
+
+sample:
+	go run output.go const.go model.go main.go sample
