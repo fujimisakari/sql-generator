@@ -21,7 +21,8 @@ CREATE TABLE `accounts` (
   `last_name` VARCHAR(20),
   `email` VARCHAR(100),
   `password_hash` CHAR(64),
-  `point` INTEGER
+  `point` INTEGER,
+  `created_at` datetime DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 $ make drop
@@ -37,16 +38,18 @@ This example will generate the following output:
 ```
 $ make example
 go run output.go const.go model.go main.go ./schema.yaml example
-INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, password_hash, point) VALUES
-(1, '1-account', 'risa', 'maehara', '1-account@gmail.com', 'hogehoge', 951),
-(2, '2-account', 'misaka', 'fujimoto', '2-account@gmail.com', 'hogehoge', 710),
-(3, '3-account', 'misaka', 'kondou', '3-account@gmail.com', 'hogehoge', 1232),
-(4, '4-account', 'takahiro', 'uehara', '4-account@gmail.com', 'hogehoge', 1471),
-(5, '5-account', 'takezo', 'gondou', '5-account@gmail.com', 'hogehoge', 1212),
-(6, '6-account', 'misaka', 'morita', '6-account@gmail.com', 'hogehoge', 385),
-(7, '7-account', 'risa', 'kondou', '7-account@gmail.com', 'hogehoge', 638),
-(8, '8-account', 'jun', 'morita', '8-account@gmail.com', 'hogehoge', 885),
-(9, '9-account', 'misaka', 'gondou', '9-account@gmail.com', 'hogehoge', 762),
+ make example
+go run output.go const.go model.go main.go ./schema.yaml example
+INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, password_hash, point, created_at) VALUES
+(1, '1-account', 'risa', 'morita', '1-account@gmail.com', 'hogehoge', 498, '2017-05-21 20:22:58'),
+(2, '2-account', 'ryo', 'gondou', '2-account@gmail.com', 'hogehoge', 1034, '2017-05-21 20:12:16'),
+(3, '3-account', 'ryo', 'uehara', '3-account@gmail.com', 'hogehoge', 1084, '2017-05-21 20:08:32'),
+(4, '4-account', 'ryo', 'maehara', '4-account@gmail.com', 'hogehoge', 1102, '2017-05-23 01:59:37'),
+(5, '5-account', 'takezo', 'morita', '5-account@gmail.com', 'hogehoge', 871, '2017-05-21 05:11:20'),
+(6, '6-account', 'takezo', 'fujimoto', '6-account@gmail.com', 'hogehoge', 1134, '2017-05-21 11:37:22'),
+(7, '7-account', 'takezo', 'kondou', '7-account@gmail.com', 'hogehoge', 1167, '2017-05-22 22:48:09'),
+(8, '8-account', 'ryo', 'gondou', '8-account@gmail.com', 'hogehoge', 793, '2017-05-22 23:39:08'),
+(9, '9-account', 'risa', 'maehara', '9-account@gmail.com', 'hogehoge', 1042, '2017-05-21 23:57:13'),
 :
 :
 ```
