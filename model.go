@@ -81,7 +81,6 @@ func (t ExampleTableColumn) GetValue(i int) string {
 	return s
 }
 
-
 func random(min int, max int) int {
 	return rand.Intn(max - min) + min
 }

@@ -52,7 +52,7 @@ INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, 
 :
 ```
 
-How to set TableSchem
+How to set TableSchema
 -------
 
 You can define these by setting and changing on yaml file.
