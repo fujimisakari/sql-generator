@@ -11,9 +11,10 @@ Installation and usage
 
 ```
 $ make setup
+$ make build
+$ ./sql-generator schema > ./schema.yaml
 
-$ make create
-go run output.go const.go model.go main.go create ./schema.yaml 
+$ ./sql-generator create ./schema.yaml
 CREATE TABLE `accounts` (
   `account_id` SERIAL PRIMARY KEY,
   `account_name` VARCHAR(20),
@@ -22,11 +23,11 @@ CREATE TABLE `accounts` (
   `email` VARCHAR(100),
   `password_hash` CHAR(64),
   `point` INTEGER,
-  `created_at` datetime DEFAULT NULL
+  `created_at` datetime DEFAULT NULL,
+  PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
-$ make drop
-go run output.go const.go model.go main.go drop ./schema.yaml
+$ ./sql-generator drop ./schema.yaml
 DROP TABLE IF EXISTS `accounts`;
 ```
 
@@ -36,18 +37,18 @@ Example
 This example will generate the following output:
 
 ```
-$ make example
-go run output.go const.go model.go main.go example ./schema.yaml
+$ ./sql-generator example ./schema.yaml
 INSERT INTO `accounts` (account_id, account_name, first_name, last_name, email, password_hash, point, created_at) VALUES
-(1, '1-account', 'risa', 'morita', '1-account@gmail.com', 'hogehoge', 498, '2017-05-21 20:22:58'),
-(2, '2-account', 'ryo', 'gondou', '2-account@gmail.com', 'hogehoge', 1034, '2017-05-21 20:12:16'),
-(3, '3-account', 'ryo', 'uehara', '3-account@gmail.com', 'hogehoge', 1084, '2017-05-21 20:08:32'),
-(4, '4-account', 'ryo', 'maehara', '4-account@gmail.com', 'hogehoge', 1102, '2017-05-23 01:59:37'),
-(5, '5-account', 'takezo', 'morita', '5-account@gmail.com', 'hogehoge', 871, '2017-05-21 05:11:20'),
-(6, '6-account', 'takezo', 'fujimoto', '6-account@gmail.com', 'hogehoge', 1134, '2017-05-21 11:37:22'),
-(7, '7-account', 'takezo', 'kondou', '7-account@gmail.com', 'hogehoge', 1167, '2017-05-22 22:48:09'),
-(8, '8-account', 'ryo', 'gondou', '8-account@gmail.com', 'hogehoge', 793, '2017-05-22 23:39:08'),
-(9, '9-account', 'risa', 'maehara', '9-account@gmail.com', 'hogehoge', 1042, '2017-05-21 23:57:13'),
+(1, '1-account', 'misaka', 'maehara', '1-account@gmail.com', 'hogehoge', 1058, '2017-04-10 06:53:45'),
+(2, '2-account', 'takahiro', 'kondou', '2-account@gmail.com', 'hogehoge', 1222, '2017-04-21 18:03:58'),
+(3, '3-account', 'risa', 'fujimoto', '3-account@gmail.com', 'hogehoge', 733, '2017-05-18 14:50:01'),
+(4, '4-account', 'misaka', 'uehara', '4-account@gmail.com', 'hogehoge', 805, '2017-05-06 06:31:50'),
+(5, '5-account', 'risa', 'morita', '5-account@gmail.com', 'hogehoge', 1000, '2017-05-02 00:32:09'),
+(6, '6-account', 'misaka', 'maehara', '6-account@gmail.com', 'hogehoge', 1258, '2017-04-10 03:23:49'),
+(7, '7-account', 'ryo', 'maehara', '7-account@gmail.com', 'hogehoge', 500, '2017-05-22 23:16:12'),
+(8, '8-account', 'ryo', 'gondou', '8-account@gmail.com', 'hogehoge', 359, '2017-05-18 11:24:20'),
+(9, '9-account', 'jun', 'fujimoto', '9-account@gmail.com', 'hogehoge', 1184, '2017-04-05 17:39:11'),
+(10, '10-account', 'jun', 'uehara', '10-account@gmail.com', 'hogehoge', 925, '2017-05-20 14:25:51'),
 :
 :
 ```
@@ -59,16 +60,15 @@ You can define these by setting and changing on yaml file.
 
 
 ```
-$ make sample
-go run output.go const.go model.go main.go sample
+$ ./sql-generator schema ./schema.yaml
 table-schema:
   name: accounts
-  meta: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+  params: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
   ex-number: 5000
 
   columns:
     - name: account_id
-      type: SERIAL PRIMARY KEY
+      type: unsigned NOT NULL AUTO_INCREMENT
       ex-type: int-inc
 
     - name: account_name
@@ -119,6 +119,12 @@ table-schema:
       type: datetime DEFAULT NULL
       ex-type: date-range
       ex-range:
-        - start: "2017-05-20 12:31:24"
+        - start: "2017-04-01 12:31:24"
         - end: "2017-05-23 23:01:55"
+
+  meta-list:
+    - value: PRIMARY KEY (`account_id`)
+    # - value: INDEX `idx_first_name_last_name` (`first_name`, `last_name`)
+    # - value: INDEX idx_point (`point`)
+    # - value: UNIQUE KEY `email` (`email`)
 ```
