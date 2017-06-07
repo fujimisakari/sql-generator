@@ -24,16 +24,28 @@ The commands are:
 }
 
 func OutputCreateTableQuery(t Table) {
-	colCount := len(t.TableColumns) - 1
+	totalColCount := len(t.TableColumns) + len(t.MetaList)
 
 	fmt.Println(t.CreateQueryHeader())
-	for i, v := range t.TableColumns {
+
+	offset := 1
+	for _, v := range t.TableColumns {
 		withcomma := true
-		if i == colCount {
+		if offset == totalColCount {
 			withcomma = false
 		}
 		fmt.Println(v.CreateQueryColumn(withcomma))
+		offset++
 	}
+	for _, v := range t.MetaList {
+		if offset == totalColCount {
+			fmt.Println(fmt.Sprintf("  %s", v))
+		} else {
+			fmt.Println(fmt.Sprintf("  %s,", v))
+		}
+		offset++
+	}
+
 	fmt.Println(t.CreateQueryFooter())
 }
 

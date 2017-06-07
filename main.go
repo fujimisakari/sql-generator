@@ -40,10 +40,13 @@ func main() {
 		return
 	}
 
+	if len(args) < 2 {
+		fmt.Println("Dose not exists yaml-path")
+		return
+	}
+
 	// Load yaml data
-	target := args[2]
-	// yamlPath := fmt.Sprintf("./%s.yaml", target)
-	yamlPath := target
+	yamlPath := args[2]
 	if _, err := os.Stat(yamlPath); err != nil {
 		fmt.Println("YamlFile not found:", yamlPath)
 		return
@@ -74,12 +77,12 @@ func makeTableContext(yamlPath string) Table {
 	schema := yamlMap["table-schema"].(map[interface{}]interface{})
 	name, _ := schema["name"].(string)
 	tblName := strings.ToLower(name)
-	tblMeta := schema["meta"].(string)
+	tblParams := schema["params"].(string)
 	exNumber := schema["ex-number"].(int)
+
+	// Create TableColumn List
 	columns := schema["columns"].([]interface{})
 	colCount := len(columns)
-
-	// Create TableColumn list
 	tblColumns := make([]TableColumn, colCount)
 	for colIdx, colData := range columns {
 		c, _ := colData.(map[interface{}]interface{})
@@ -133,11 +136,24 @@ func makeTableContext(yamlPath string) Table {
 		tblColumns[colIdx] = tblCol
 	}
 
+	// Create Meta List
+	tblMetaList := make([]string, 0)
+	if metaList, ok := schema["meta-list"]; ok {
+		metaList := metaList.([]interface{})
+		metaListCount := len(metaList)
+		tblMetaList = make([]string, metaListCount)
+		for metaIdx, metaData := range metaList {
+			m, _ := metaData.(map[interface{}]interface{})
+			tblMetaList[metaIdx] = m["value"].(string)
+		}
+	}
+
 	context := Table{
 		tblName,
-		tblMeta,
+		tblParams,
 		exNumber,
 		tblColumns,
+		tblMetaList,
 	}
 	return context
 }

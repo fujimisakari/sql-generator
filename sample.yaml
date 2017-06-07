@@ -1,6 +1,6 @@
 table-schema:
   name: accounts
-  meta: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
+  params: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
   ex-number: 5000
 
   columns:
@@ -56,5 +56,11 @@ table-schema:
       type: datetime DEFAULT NULL
       ex-type: date-range
       ex-range:
-        - start: "2017-05-20 12:31:24"
+        - start: "2017-04-01 12:31:24"
         - end: "2017-05-23 23:01:55"
+
+  meta-list:
+    - value: PRIMARY KEY (`account_id`)
+    # - value: INDEX `idx_first_name_last_name` (`first_name`, `last_name`)
+    # - value: INDEX idx_point (`point`)
+    # - value: UNIQUE KEY `email` (`email`)

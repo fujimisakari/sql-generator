@@ -8,9 +8,10 @@ import (
 
 type Table struct {
 	Name          string
-	Meta          string
+	Params        string
 	ExampleNumber int
 	TableColumns  []TableColumn
+	MetaList      []string
 }
 
 func (t Table) CreateQueryHeader() string {
@@ -18,7 +19,7 @@ func (t Table) CreateQueryHeader() string {
 }
 
 func (t Table) CreateQueryFooter() string {
-	return fmt.Sprintf(") %s;", t.Meta)
+	return fmt.Sprintf(") %s;", t.Params)
 }
 
 func (t Table) DropQery() string {
@@ -82,9 +83,9 @@ func (t ExampleTableColumn) GetValue(i int) string {
 }
 
 func random(min int, max int) int {
-	return rand.Intn(max - min) + min
+	return rand.Intn(max-min) + min
 }
 
 func randomForDate(min int64, max int64) int64 {
-	return rand.Int63n(max - min) + min
+	return rand.Int63n(max-min) + min
 }
