@@ -31,7 +31,7 @@ func main() {
 	case "help":
 		OutputHelp()
 		return
-	case "sample":
+	case "schema":
 		OutputSampleTableSchema()
 		return
 	default:

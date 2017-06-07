@@ -18,7 +18,7 @@ The commands are:
         create      output create table query
         example     output example insert query
         drop        output drop table query
-        sample      output sample table schema yaml file`
+        schema      output sample table schema yaml file`
 
 	fmt.Println(helpMsg)
 }
