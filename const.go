@@ -1,7 +1,7 @@
 package main
 
 const (
-	exampleLimit    = 2000
+	exampleLimit    = 3000
 	intType         = "int"
 	intIncType      = "int-inc"
 	intRangeType    = "int-range"
