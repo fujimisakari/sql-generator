@@ -16,13 +16,13 @@ $ ./sql-generator schema > ./schema.yaml
 
 $ ./sql-generator create ./schema.yaml
 CREATE TABLE `accounts` (
-  `account_id` SERIAL PRIMARY KEY,
+  `account_id` INT NOT NULL AUTO_INCREMENT,
   `account_name` VARCHAR(20),
   `first_name` VARCHAR(20),
   `last_name` VARCHAR(20),
   `email` VARCHAR(100),
-  `password_hash` CHAR(64),
-  `point` INTEGER,
+  `password_hash` VARCHAR(32),
+  `point` INT,
   `created_at` datetime DEFAULT NULL,
   PRIMARY KEY (`account_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
@@ -60,7 +60,8 @@ You can define these by setting and changing on yaml file.
 
 
 ```
-$ ./sql-generator schema ./schema.yaml
+$ ./sql-generator schema
+
 table-schema:
   name: accounts
   params: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -68,7 +69,7 @@ table-schema:
 
   columns:
     - name: account_id
-      type: unsigned NOT NULL AUTO_INCREMENT
+      type: INT NOT NULL AUTO_INCREMENT
       ex-type: int-inc
 
     - name: account_name
@@ -104,12 +105,12 @@ table-schema:
       ex-text: "account@gmail.com"
 
     - name: password_hash
-      type: CHAR(64)
+      type: VARCHAR(32)
       ex-type: string
       ex-text: "hogehoge"
 
     - name: point
-      type: INTEGER
+      type: INT
       ex-type: int-range
       ex-range:
         - min: 300
@@ -125,6 +126,6 @@ table-schema:
   meta-list:
     - value: PRIMARY KEY (`account_id`)
     # - value: INDEX `idx_first_name_last_name` (`first_name`, `last_name`)
-    # - value: INDEX idx_point (`point`)
+    # - value: INDEX `idx_point` (`point`)
     # - value: UNIQUE KEY `email` (`email`)
 ```
