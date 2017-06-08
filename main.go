@@ -5,7 +5,6 @@ import (
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"os"
-	"path"
 	"strings"
 )
 
@@ -13,7 +12,6 @@ func main() {
 	args := os.Args
 
 	if len(args) <= 1 {
-		fmt.Println("Usage: ", path.Base(args[0]), " yaml-path command")
 		OutputHelp()
 		return
 	}

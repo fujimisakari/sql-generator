@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"math/rand"
-	"os"
 	"time"
 )
 
@@ -102,20 +101,5 @@ func OutputExampletQuery(t Table) {
 }
 
 func OutputSampleTableSchema() {
-	file, _ := os.Open("./sample.yaml")
-	defer file.Close()
-
-	var BUFSIZE = 1024
-	buf := make([]byte, BUFSIZE)
-	for {
-		n, err := file.Read(buf)
-		if n == 0 {
-			break
-		}
-		if err != nil {
-			break
-		}
-
-		fmt.Print(string(buf[:n]))
-	}
+	fmt.Println(sampleSchema)
 }

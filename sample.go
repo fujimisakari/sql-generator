@@ -1,3 +1,10 @@
+package main
+
+import (
+	"fmt"
+)
+
+var template = `
 table-schema:
   name: accounts
   params: ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci
@@ -5,7 +12,7 @@ table-schema:
 
   columns:
     - name: account_id
-      type: unsigned NOT NULL AUTO_INCREMENT
+      type: INT NOT NULL AUTO_INCREMENT
       ex-type: int-inc
 
     - name: account_name
@@ -41,12 +48,12 @@ table-schema:
       ex-text: "account@gmail.com"
 
     - name: password_hash
-      type: CHAR(64)
+      type: VARCHAR(32)
       ex-type: string
       ex-text: "hogehoge"
 
     - name: point
-      type: INTEGER
+      type: INT
       ex-type: int-range
       ex-range:
         - min: 300
@@ -60,7 +67,13 @@ table-schema:
         - end: "2017-05-23 23:01:55"
 
   meta-list:
-    - value: PRIMARY KEY (`account_id`)
-    # - value: INDEX `idx_first_name_last_name` (`first_name`, `last_name`)
-    # - value: INDEX idx_point (`point`)
-    # - value: UNIQUE KEY `email` (`email`)
+    - value: PRIMARY KEY (%s)
+    # - value: INDEX %s (%s, %s)
+    # - value: INDEX %s (%s)
+    # - value: UNIQUE KEY %s (%s)
+`
+
+var sampleSchema = fmt.Sprintf(template, "`account_id`",
+	"`idx_first_name_last_name`", "`first_name`", "`last_name`",
+	"`idx_point`", "`point`",
+	"`email`", "`email`")
