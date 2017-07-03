@@ -11,7 +11,7 @@ table-schema:
   ex-number: 5000
 
   columns:
-    - name: account_id
+    - name: id
       type: INT NOT NULL AUTO_INCREMENT
       ex-type: int-inc
 
@@ -44,7 +44,7 @@ table-schema:
 
     - name: email
       type: VARCHAR(100)
-      ex-type: string-inc
+      ex-type: unique
       ex-text: "account@gmail.com"
 
     - name: password_hash
@@ -73,7 +73,7 @@ table-schema:
     # - value: UNIQUE KEY %s (%s)
 `
 
-var sampleSchema = fmt.Sprintf(template, "`account_id`",
+var sampleSchema = fmt.Sprintf(template, "`id`",
 	"`idx_first_name_last_name`", "`first_name`", "`last_name`",
 	"`idx_point`", "`point`",
 	"`email`", "`email`")
