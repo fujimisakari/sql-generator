@@ -65,7 +65,7 @@ func (t ExampleTableColumn) GetValue(i int) string {
 		s = fmt.Sprintf("%d", random(t.Min, t.Max+1))
 	case stringType:
 		s = fmt.Sprintf("'%s'", t.Text)
-	case stringIncType:
+	case stringUniqueType:
 		s = fmt.Sprintf("'%d-%s'", i, t.Text)
 	case stringRangeType:
 		idx := rand.Intn(len(t.StringRange))

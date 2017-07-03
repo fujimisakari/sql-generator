@@ -17,7 +17,7 @@ table-schema:
 
     - name: account_name
       type: VARCHAR(20)
-      ex-type: string-inc
+      ex-type: string-unique
       ex-text: "account"
 
     - name: first_name
@@ -44,7 +44,7 @@ table-schema:
 
     - name: email
       type: VARCHAR(100)
-      ex-type: unique
+      ex-type: string-unique
       ex-text: "account@gmail.com"
 
     - name: password_hash

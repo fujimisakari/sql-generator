@@ -100,7 +100,7 @@ func makeTableContext(yamlPath string) Table {
 			rangeSchema := c["ex-range"].([]interface{})
 			exMin = rangeSchema[0].(map[interface{}]interface{})["min"].(int)
 			exMax = rangeSchema[1].(map[interface{}]interface{})["max"].(int)
-		case stringType, stringIncType:
+		case stringType, stringUniqueType:
 			exText = c["ex-text"].(string)
 		case stringRangeType:
 			rangeSchema := c["ex-range"].([]interface{})
