@@ -1,4 +1,4 @@
-.PHONY: setup build
+.PHONY: setup build install
 
 help:
 	@echo "Usage:"
@@ -10,3 +10,6 @@ setup:
 
 build:
 	go build
+
+install:
+	go install
